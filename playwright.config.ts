@@ -1,4 +1,7 @@
-import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
+dotenv.config();
+
+import { defineConfig } from "@playwright/test";
 
 import { config as swagLabs } from "./tests/swag-labs/config";
 

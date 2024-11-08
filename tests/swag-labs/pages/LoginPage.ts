@@ -5,7 +5,7 @@ import { sitesConfig } from "../sites.config";
 export class LoginPage {
   private readonly page: Page;
 
-  public readonly loginButton: Locator;
+  private readonly loginButton: Locator;
   private readonly passwordInput: Locator;
   private readonly usernameInput: Locator;
 
@@ -56,6 +56,5 @@ export class LoginPage {
     await this.passwordInput.fill(credentials.password);
 
     await this.loginButton.click();
-    await this.loginButton.waitFor({ state: "hidden" });
   }
 }

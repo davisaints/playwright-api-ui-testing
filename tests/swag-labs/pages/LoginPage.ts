@@ -7,7 +7,16 @@ export class LoginPage {
   private readonly passwordInput: Locator;
   private readonly usernameInput: Locator;
 
-  private readonly userCredentials = sitesConfig.loginCredentials.usernames;
+  private readonly userCredentials = {
+    "Locked out user": {
+      username: sitesConfig.loginCredentials.usernames.lockedUser,
+      password: sitesConfig.loginCredentials.passwords.generalPassword,
+    },
+    "Standard user": {
+      username: sitesConfig.loginCredentials.usernames.standardUser,
+      password: sitesConfig.loginCredentials.passwords.generalPassword,
+    },
+  };
 
   constructor(page: Page) {
     this.page = page;
@@ -21,11 +30,11 @@ export class LoginPage {
     await this.page.waitForLoadState();
   }
 
-  async loginAs(userAccount: "Standard user" | "Locked out user") {
-    const { username, password } = this.userCredentials[userAccount];
+  async loginAs(userAccount: keyof typeof this.userCredentials) {
+    const credentials = this.userCredentials[userAccount];
 
-    await this.usernameInput.fill(username);
-    await this.passwordInput.fill(password);
+    await this.usernameInput.fill(credentials.username);
+    await this.passwordInput.fill(credentials.password);
 
     await this.loginButton.click();
   }

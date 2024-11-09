@@ -22,7 +22,7 @@ test.beforeEach(async ({ loginPage }) => {
   });
 });
 
-test.describe("Product Sorting functionality", () => {
+test.describe("Product sorting functionality", () => {
   test("User should see products sorted by price from low to high", async ({
     inventoryPage,
   }) => {

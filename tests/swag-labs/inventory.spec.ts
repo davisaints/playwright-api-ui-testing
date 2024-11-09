@@ -32,6 +32,7 @@ test.describe("Product Sorting functionality", () => {
 
     await test.step("Then the products should be sorted in ascending order of price", async () => {
       const allPrices = await inventoryPage.getAllItemPrices();
+
       const isSorted = checkSorted(allPrices);
       expect(isSorted).toBeTruthy();
     });
@@ -46,6 +47,7 @@ test.describe("Product Sorting functionality", () => {
 
     await test.step("Then the products should be sorted in descending order of price", async () => {
       const allPrices = await inventoryPage.getAllItemPrices();
+
       const isSorted = checkSorted(allPrices);
       expect(isSorted).toBeFalsy();
     });

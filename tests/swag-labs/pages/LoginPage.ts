@@ -1,40 +1,13 @@
 import { Locator, Page } from "@playwright/test";
-
 import { sitesConfig } from "../sites.config";
 
 export class LoginPage {
   private readonly page: Page;
-
   private readonly loginButton: Locator;
   private readonly passwordInput: Locator;
   private readonly usernameInput: Locator;
 
-  private readonly userCredentials = {
-    "Error user": {
-      username: sitesConfig.loginCredentials.usernames.errorUser,
-      password: sitesConfig.loginCredentials.passwords.generalPassword,
-    },
-    "Locked out user": {
-      username: sitesConfig.loginCredentials.usernames.lockedUser,
-      password: sitesConfig.loginCredentials.passwords.generalPassword,
-    },
-    "Performance glitch user": {
-      username: sitesConfig.loginCredentials.usernames.performanceGlitchUser,
-      password: sitesConfig.loginCredentials.passwords.generalPassword,
-    },
-    "Problem user": {
-      username: sitesConfig.loginCredentials.usernames.problemUser,
-      password: sitesConfig.loginCredentials.passwords.generalPassword,
-    },
-    "Standard user": {
-      username: sitesConfig.loginCredentials.usernames.standardUser,
-      password: sitesConfig.loginCredentials.passwords.generalPassword,
-    },
-    "Virtual user": {
-      username: sitesConfig.loginCredentials.usernames.visualUser,
-      password: sitesConfig.loginCredentials.passwords.generalPassword,
-    },
-  };
+  private readonly userCredentials = sitesConfig.loginCredentials.usernames;
 
   constructor(page: Page) {
     this.page = page;
@@ -45,15 +18,14 @@ export class LoginPage {
 
   async goToLoginPage() {
     await this.page.goto(sitesConfig.url.baseUrl);
-
     await this.page.waitForLoadState();
   }
 
-  async loginAs(userAccount: keyof typeof this.userCredentials) {
-    const credentials = this.userCredentials[userAccount];
+  async loginAs(userAccount: "Standard user" | "Locked out user") {
+    const { username, password } = this.userCredentials[userAccount];
 
-    await this.usernameInput.fill(credentials.username);
-    await this.passwordInput.fill(credentials.password);
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
 
     await this.loginButton.click();
   }

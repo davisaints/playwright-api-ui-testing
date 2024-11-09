@@ -28,4 +28,21 @@ test.describe("Login functionality", () => {
       await expect(productPageHeader).toBeVisible();
     });
   });
+
+  test("Locked-out user should see an error message on login attempt", async ({
+    loginPage,
+    page,
+  }) => {
+    await test.step("When the locked-out user attempts to log in", async () => {
+      await loginPage.loginAs("Locked out user");
+    });
+
+    await test.step("Then the user should see an error message indicating account lockout", async () => {
+      const errorMessage = page.locator('[data-test="error"]', {
+        hasText: "Sorry, this user has been locked out.",
+      });
+
+      await expect(errorMessage).toBeVisible();
+    });
+  });
 });

@@ -11,7 +11,7 @@ test.beforeEach(async ({ loginPage }) => {
 });
 
 test.describe("Login functionality", () => {
-  test("User is redirected to the Products page when logged in with valid credentials", async ({
+  test("User should log in with valid credentials", async ({
     loginPage,
     page,
   }) => {
@@ -19,7 +19,7 @@ test.describe("Login functionality", () => {
       await loginPage.loginAs("Standart user");
     });
 
-    await test.step("Then the user is redirected to the products page and sees the Products header", async () => {
+    await test.step("Then the user should be redirected to the Inventory page", async () => {
       const productPageHeader = page.getByText("Products");
       await expect(productPageHeader).toBeVisible();
     });

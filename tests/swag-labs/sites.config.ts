@@ -11,7 +11,7 @@ const sitesConfig = {
       lockedUser: "locked_out_user",
       performanceGlitchUser: "performance_glitch_user",
       problemUser: "problem_user",
-      standartUser: "standard_user",
+      standardUser: "standard_user",
       visualUser: "visual_user",
     },
     passwords: {

@@ -26,8 +26,8 @@ export class LoginPage {
       username: sitesConfig.loginCredentials.usernames.problemUser,
       password: sitesConfig.loginCredentials.passwords.generalPassword,
     },
-    "Standart user": {
-      username: sitesConfig.loginCredentials.usernames.standartUser,
+    "Standard user": {
+      username: sitesConfig.loginCredentials.usernames.standardUser,
       password: sitesConfig.loginCredentials.passwords.generalPassword,
     },
     "Virtual user": {

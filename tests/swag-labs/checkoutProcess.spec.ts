@@ -62,3 +62,36 @@ test("User can remove products from cart", async ({ checkoutPage, page }) => {
     await expect(page.getByRole("link", { name: products[0] })).toBeHidden();
   });
 });
+
+test("User can view checkout details before completing purchase", async ({
+  checkoutPage,
+  page,
+}) => {
+  await test.step("Given the user adds products to the cart", async () => {
+    for (const product of products) {
+      await checkoutPage.addProductToCart(product);
+    }
+    await checkoutPage.openCart();
+    await checkoutPage.checkoutButton.click();
+  });
+
+  await test.step("When the user fills in the checkout information", async () => {
+    await checkoutPage.fillCheckoutInfo(
+      userInfo.firstName,
+      userInfo.lastName,
+      userInfo.postalCode
+    );
+    await checkoutPage.continueButton.click();
+  });
+
+  await test.step("Then the payment, shipping, and total price information is displayed", async () => {
+    const paymentInfoValue = page.locator('[data-test="payment-info-value"]');
+    await expect(paymentInfoValue).toHaveText("SauceCard #31337");
+
+    const shippingInfoValue = page.locator('[data-test="shipping-info-value"]');
+    await expect(shippingInfoValue).toHaveText("Free Pony Express Delivery!");
+
+    const summaryTotalLabel = page.locator('[data-test="total-label"]');
+    await expect(summaryTotalLabel).toHaveText("Total: $82.05");
+  });
+});

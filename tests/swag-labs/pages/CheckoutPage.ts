@@ -1,5 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 
+import { clickAndExpectToBeVisible } from "../../utils/clickAndExpectToBeVisible";
 export class CheckoutPage {
   private readonly page: Page;
 
@@ -44,12 +45,13 @@ export class CheckoutPage {
   }
 
   async openCart() {
-    await this.shopCartLink.click();
-
-    await this.page.getByText("Your Cart").waitFor();
+    await clickAndExpectToBeVisible({
+      target: this.page.getByText("Your Cart"),
+      trigger: this.shopCartLink,
+    });
   }
 
-  async removeProductFromCart(productName) {
+  async removeProductFromCart(productName: string) {
     const removeButton = this.page
       .locator(".cart_item", { hasText: productName })
       .getByText("Remove");

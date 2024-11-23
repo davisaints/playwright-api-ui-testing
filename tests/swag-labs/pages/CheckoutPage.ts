@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 
-import { clickAndExpectToBeVisible } from "../../utils/clickAndExpectToBeVisible";
+import { clickAndExpectToBeVisible } from "../utils/clickAndExpectToBeVisible";
 export class CheckoutPage {
   private readonly page: Page;
 

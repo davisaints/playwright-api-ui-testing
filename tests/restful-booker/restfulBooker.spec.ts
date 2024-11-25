@@ -1,30 +1,17 @@
 import { test, expect } from "@playwright/test";
 import { ApiHelpers } from "../restful-booker/helpers/ApiHelpers";
+import { booking } from "./test-data/booking";
 
-const apiHelpers = new ApiHelpers("https://restful-booker.herokuapp.com");
+const apiHelpers = new ApiHelpers();
+
+test.beforeAll(async ({}) => {
+  await apiHelpers.authenticate();
+});
 
 test("Create a booking", async () => {
-  await apiHelpers.authenticate();
-
-  const bookingData = {
-    firstname: "Jim",
-    lastname: "Brown",
-    totalprice: 111,
-    depositpaid: true,
-    bookingdates: {
-      checkin: "2018-01-01",
-      checkout: "2019-01-01",
-    },
-    additionalneeds: "Breakfast",
-  };
-
-  const response = await apiHelpers.RestfulBookerApiHelper.createBooking(
-    bookingData
-  );
+  const response = await apiHelpers.createBooking(booking);
+  expect(response.ok()).toBeTruthy();
 
   const responseBody = await response.json();
-  console.log("Response Body:", responseBody);
-
-  expect(response.ok()).toBeTruthy();
   expect(responseBody.bookingid).toBeDefined();
 });

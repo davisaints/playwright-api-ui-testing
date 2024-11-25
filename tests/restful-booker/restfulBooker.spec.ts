@@ -16,3 +16,16 @@ test("Can create booking", async () => {
   expect(responseBody.bookingid).toBeDefined();
   expect(responseBody.booking).toEqual(booking);
 });
+
+test("Can get booking", async () => {
+  const createBookingResponse = await apiHelpers.createBooking(booking);
+  const createdBooking = await createBookingResponse.json();
+
+  const bookingId = createdBooking.bookingid;
+
+  const getBookingResponse = await apiHelpers.getBooking(bookingId);
+  const retrievedBooking = await getBookingResponse.json();
+
+  expect(getBookingResponse.status()).toBe(200);
+  expect(retrievedBooking).toMatchObject(booking);
+});

@@ -8,10 +8,11 @@ test.beforeAll(async ({}) => {
   await apiHelpers.authenticate();
 });
 
-test("Create a booking", async () => {
+test("Can create booking", async () => {
   const response = await apiHelpers.createBooking(booking);
-  expect(response.ok()).toBeTruthy();
+  expect(response.status()).toBe(200);
 
   const responseBody = await response.json();
   expect(responseBody.bookingid).toBeDefined();
+  expect(responseBody.booking).toEqual(booking);
 });

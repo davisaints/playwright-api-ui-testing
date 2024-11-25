@@ -1,6 +1,5 @@
 import { APIRequestContext, request } from "playwright";
 import { sitesConfig } from "../sites.config";
-import { booking } from "../test-data/booking";
 
 export class ApiHelpers {
   private readonly baseURL: string;

@@ -3,29 +3,29 @@ import { ApiHelpers } from "../restful-booker/helpers/ApiHelpers";
 import { booking } from "./test-data/booking";
 
 const apiHelpers = new ApiHelpers();
+const EXPECTED_STATUS_CODE = 200;
 
-test.beforeAll(async ({}) => {
+test.beforeAll(async () => {
   await apiHelpers.authenticate();
 });
 
 test("Can create booking", async () => {
-  const response = await apiHelpers.createBooking(booking);
-  expect(response.status()).toBe(200);
+  const createBookingResponse = await apiHelpers.createBooking(booking);
+  expect(createBookingResponse.status()).toBe(EXPECTED_STATUS_CODE);
 
-  const responseBody = await response.json();
-  expect(responseBody.bookingid).toBeDefined();
-  expect(responseBody.booking).toEqual(booking);
+  const createdBookingJson = await createBookingResponse.json();
+  expect(createdBookingJson.bookingid).toBeDefined();
+  expect(createdBookingJson.booking).toMatchObject(booking);
 });
 
 test("Can get booking", async () => {
   const createBookingResponse = await apiHelpers.createBooking(booking);
-  const createdBooking = await createBookingResponse.json();
-
-  const bookingId = createdBooking.bookingid;
+  const createdBookingJson = await createBookingResponse.json();
+  const bookingId = createdBookingJson.bookingid;
 
   const getBookingResponse = await apiHelpers.getBooking(bookingId);
-  const retrievedBooking = await getBookingResponse.json();
+  const bookingJson = await getBookingResponse.json();
 
   expect(getBookingResponse.status()).toBe(200);
-  expect(retrievedBooking).toMatchObject(booking);
+  expect(bookingJson).toMatchObject(booking);
 });

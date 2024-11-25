@@ -1,69 +1,60 @@
 import { APIRequestContext, request } from "playwright";
-import { RestfulBookerApiHelper } from "./RestfulBookerApiHelper";
 import { sitesConfig } from "../sites.config";
+import { booking } from "../test-data/booking";
 
 export class ApiHelpers {
-  readonly baseURL: string;
-  readonly RestfulBookerApiHelper: RestfulBookerApiHelper;
-  private token: string | null = null;
+  private readonly baseURL: string;
   private apiRequestContext: APIRequestContext;
 
-  constructor(baseURL: string) {
-    this.baseURL = baseURL;
-    this.RestfulBookerApiHelper = new RestfulBookerApiHelper(this);
+  public constructor() {
+    this.baseURL = sitesConfig.url.baseUrl;
   }
 
-  async authenticate() {
+  public async authenticate() {
     this.apiRequestContext = await request.newContext();
     const response = await this.apiRequestContext.post(`${this.baseURL}/auth`, {
       data: {
         username: sitesConfig.auth.username,
         password: sitesConfig.auth.password,
       },
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
 
-    if (response.ok()) {
-      const responseBody = await response.json();
-      this.token = responseBody.token;
-    } else {
+    if (response.status() !== 200) {
       throw new Error("Authentication failed");
     }
   }
 
-  private getHeaders(): { [key: string]: string } {
-    const headers: { [key: string]: string } = {};
-    if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`;
-    }
-    return headers;
+  public async getBooking(bookingId: string) {
+    return await this.apiRequestContext.get(
+      `${this.baseURL}/booking/${bookingId}`
+    );
   }
 
-  async get(endpoint: string) {
-    return await this.apiRequestContext.get(`${this.baseURL}${endpoint}`, {
-      headers: this.getHeaders(),
-    });
-  }
-
-  async post(endpoint: string, data: any) {
-    return await this.apiRequestContext.post(`${this.baseURL}${endpoint}`, {
+  public async createBooking(data: any) {
+    return await this.apiRequestContext.post(`${this.baseURL}/booking`, {
       data,
-      headers: this.getHeaders(),
     });
   }
 
-  async put(endpoint: string, data: any) {
-    return await this.apiRequestContext.put(`${this.baseURL}${endpoint}`, {
-      data,
-      headers: this.getHeaders(),
-    });
+  public async patchBooking(bookingId: string, data: any) {
+    return await this.apiRequestContext.patch(
+      `${this.baseURL}/booking/${bookingId}`,
+      {
+        data,
+      }
+    );
   }
 
-  async delete(endpoint: string) {
-    return await this.apiRequestContext.delete(`${this.baseURL}${endpoint}`, {
-      headers: this.getHeaders(),
-    });
+  public async put(bookingId: string, data: any) {
+    return await this.apiRequestContext.put(
+      `${this.baseURL}/booking/${bookingId}`,
+      {
+        data,
+      }
+    );
+  }
+
+  async delete(bookingId: string) {
+    return await this.apiRequestContext.delete(`${this.baseURL}/booking`);
   }
 }

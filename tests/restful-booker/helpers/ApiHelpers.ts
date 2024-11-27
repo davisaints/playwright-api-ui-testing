@@ -9,18 +9,19 @@ export class ApiHelpers {
     this.baseURL = sitesConfig.url.baseUrl;
   }
 
-  public async authenticate() {
+  public async initialize() {
     this.apiRequestContext = await request.newContext();
-    const response = await this.apiRequestContext.post(`${this.baseURL}/auth`, {
-      data: {
-        username: sitesConfig.auth.username,
-        password: sitesConfig.auth.password,
-      },
-    });
+  }
 
-    if (response.status() !== 200) {
-      throw new Error("Authentication failed");
-    }
+  private async getHeader(): Promise<{ [key: string]: string }> {
+    const basicAuthCredentials = Buffer.from(
+      `${sitesConfig.auth.username}:${sitesConfig.auth.password}`
+    ).toString("base64");
+
+    return {
+      Authorization: `Basic ${basicAuthCredentials}`,
+      "Content-Type": "application/json",
+    };
   }
 
   public async getBooking(bookingId: string) {
@@ -40,20 +41,27 @@ export class ApiHelpers {
       `${this.baseURL}/booking/${bookingId}`,
       {
         data,
+        headers: await this.getHeader(),
       }
     );
   }
 
-  public async put(bookingId: string, data: any) {
+  public async putBooking(bookingId: string, data: any) {
     return await this.apiRequestContext.put(
       `${this.baseURL}/booking/${bookingId}`,
       {
         data,
+        headers: await this.getHeader(),
       }
     );
   }
 
-  async delete(bookingId: string) {
-    return await this.apiRequestContext.delete(`${this.baseURL}/booking`);
+  async deleteBooking(bookingId: string) {
+    return await this.apiRequestContext.delete(
+      `${this.baseURL}/booking/${bookingId}`,
+      {
+        headers: await this.getHeader(),
+      }
+    );
   }
 }

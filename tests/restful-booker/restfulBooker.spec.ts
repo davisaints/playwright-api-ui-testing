@@ -3,10 +3,9 @@ import { ApiHelpers } from "../restful-booker/helpers/ApiHelpers";
 import { booking } from "./test-data/booking";
 
 const apiHelpers = new ApiHelpers();
-const EXPECTED_STATUS_CODE = 200;
 
 test.beforeAll(async () => {
-  await apiHelpers.authenticate();
+  await apiHelpers.initialize();
 });
 
 test("Can create booking", async () => {

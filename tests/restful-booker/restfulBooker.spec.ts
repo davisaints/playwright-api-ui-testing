@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { ApiHelpers } from "../restful-booker/helpers/ApiHelpers";
 import { booking } from "./test-data/booking";
 
+const HTTP_OK = 200;
 const HTTP_STATUS_CREATED = 201;
 
 const apiHelpers = new ApiHelpers();
@@ -12,7 +13,7 @@ test.beforeAll(async () => {
 
 test("Can create booking", async () => {
   const createBookingResponse = await apiHelpers.createBooking(booking);
-  expect(createBookingResponse.status()).toBe(EXPECTED_STATUS_CODE);
+  expect(createBookingResponse.status()).toBe(HTTP_OK);
 
   const createdBookingJson = await createBookingResponse.json();
   expect(createdBookingJson.bookingid).toBeDefined();
@@ -24,7 +25,6 @@ test("Can delete booking", async () => {
   const createdBookingJson = await createBookingResponse.json();
   const bookingId = createdBookingJson.bookingid;
 
-  console.log(bookingId)
   const deleteBookingResponse = await apiHelpers.deleteBooking(bookingId);
   expect(deleteBookingResponse.status()).toBe(HTTP_STATUS_CREATED);
 });
@@ -37,6 +37,6 @@ test("Can get booking", async () => {
   const getBookingResponse = await apiHelpers.getBooking(bookingId);
   const bookingJson = await getBookingResponse.json();
 
-  expect(getBookingResponse.status()).toBe(200);
+  expect(getBookingResponse.status()).toBe(HTTP_OK);
   expect(bookingJson).toMatchObject(booking);
 });

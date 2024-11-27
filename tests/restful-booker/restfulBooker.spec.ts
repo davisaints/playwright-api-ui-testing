@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { ApiHelpers } from "../restful-booker/helpers/ApiHelpers";
 import { booking } from "./test-data/booking";
+import { updatedBooking } from "./test-data/updateBooking";
 
 const HTTP_OK = 200;
 const HTTP_STATUS_CREATED = 201;
@@ -60,4 +61,19 @@ test("Can patch booking", async () => {
   expect(patchBookingResponse.status()).toBe(HTTP_OK);
   expect(bookingJson.firstname).toEqual(updatedBookingData.firstname);
   expect(bookingJson.lastname).toBe(updatedBookingData.lastname);
+});
+
+test("Can put booking", async ({ page }) => {
+  const createBookingResponse = await apiHelpers.createBooking(booking);
+  const createdBookingJson = await createBookingResponse.json();
+  const bookingId = createdBookingJson.bookingid;
+
+  const putBookingResponse = await apiHelpers.patchBooking(
+    bookingId,
+    updatedBooking
+  );
+  const bookingJson = await putBookingResponse.json();
+
+  expect(putBookingResponse.status()).toBe(HTTP_OK);
+  expect(bookingJson).toMatchObject(updatedBooking);
 });

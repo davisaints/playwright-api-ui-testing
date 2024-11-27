@@ -40,3 +40,24 @@ test("Can get booking", async () => {
   expect(getBookingResponse.status()).toBe(HTTP_OK);
   expect(bookingJson).toMatchObject(booking);
 });
+
+test("Can patch booking", async () => {
+  const createBookingResponse = await apiHelpers.createBooking(booking);
+  const createdBookingJson = await createBookingResponse.json();
+  const bookingId = createdBookingJson.bookingid;
+
+  const updatedBookingData = {
+    firstname: "Joe",
+    lastname: "Blogs",
+  };
+
+  const patchBookingResponse = await apiHelpers.patchBooking(
+    bookingId,
+    updatedBookingData
+  );
+  const bookingJson = await patchBookingResponse.json();
+
+  expect(patchBookingResponse.status()).toBe(HTTP_OK);
+  expect(bookingJson.firstname).toEqual(updatedBookingData.firstname);
+  expect(bookingJson.lastname).toBe(updatedBookingData.lastname);
+});

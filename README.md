@@ -31,7 +31,7 @@ These tests demonstrate how to automate common actions and interact with various
 - **Drag and Drop**: Simulates moving elements between areas.
 - **File Upload and Download**: Tests uploading and downloading files.
 - **Iframe Interaction**: Handles elements inside iframes.
-- **New Page Handling**: Manages new tabs or windows.
+- **New Page Handling**: Manages new tabs.
 - **Table Interaction**: Automates editing and submitting table data.
 
 ## Project Structure

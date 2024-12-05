@@ -23,6 +23,17 @@ This project demonstrates an automation framework using Playwright for both API 
   - **Product Sorting**: Ensures products can be sorted by price (low to high and high to low).
   - **Checkout Details**: Verifies that the user can view payment, shipping, and total price information before completing the checkout.
 
+### How-to Tests
+
+These tests demonstrate how to automate common actions and interact with various web elements:
+
+- **Alert Handling**: Automates accepting or dismissing alerts.
+- **Drag and Drop**: Simulates moving elements between areas.
+- **File Upload and Download**: Tests uploading and downloading files.
+- **Iframe Interaction**: Handles elements inside iframes.
+- **New Page Handling**: Manages new tabs or windows.
+- **Table Interaction**: Automates editing and submitting table data.
+
 ## Project Structure
 
 ```plaintext
@@ -33,17 +44,42 @@ This project demonstrates an automation framework using Playwright for both API 
 ├── test-results
 │   └── TEST-playwright.xml
 └── tests
+    ├── how-to
+    │   ├── config.ts
+    │   ├── dependencies
+    │   │   └── sampleJPG.jpg
+    │   ├── handleAlert.spec.ts
+    │   ├── handleDragAndDrop.spec.ts
+    │   ├── handleIframe.spec.ts
+    │   ├── handleNewPage.spec.ts
+    │   ├── handleTable.spec.ts
+    │   └── handleUploadDownloadFile.spec.ts
+    │   └── sites.config.ts
     ├── restful-booker
     │   ├── config.ts
     │   ├── helpers
-    │   └── restfulBooker.spec.ts
+    │   │   └── ApiHelpers.ts
+    │   ├── restfulBooker.spec.ts
+    │   ├── sites.config.ts
+    │   └── test-data
+    │       ├── booking.ts
+    │       └── updateBooking.ts
     └── swag-labs
         ├── checkoutProcess.spec.ts
         ├── config.ts
+        ├── fixtures
+        │   └── swagLabsPagesTest.ts
         ├── login.spec.ts
-        └── pages
-            ├── CheckoutPage.ts
-            └── LoginPage.ts
+        ├── pages
+        │   ├── CheckoutPage.ts
+        │   ├── InventoryPage.ts
+        │   └── LoginPage.ts
+        ├── productSorting.spec.ts
+        ├── sites.config.ts
+        ├── types
+        │   └── inventory.d.ts
+        └── utils
+            └── clickAndExpectToBeVisible.ts
 ```
 
 ## Contributing

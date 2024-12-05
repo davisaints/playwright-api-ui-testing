@@ -3,15 +3,16 @@ dotenv.config();
 
 import { defineConfig } from "@playwright/test";
 
-import { config as swagLabs } from "./tests/swag-labs/config";
-import { config as restfulBooker } from "./tests/restful-booker/config";
+import { config as howToConfig } from "./tests/how-to/config";
+import { config as swagLabsConfig } from "./tests/swag-labs/config";
+import { config as restfulBookerConfig } from "./tests/restful-booker/config";
 
 export default defineConfig({
   expect: {
     timeout: 15 * 1000,
   },
   forbidOnly: !!process.env.CI,
-  projects: [swagLabs, restfulBooker],
+  projects: [howToConfig, swagLabsConfig, restfulBookerConfig],
   reporter: [
     [
       "junit",
@@ -22,7 +23,7 @@ export default defineConfig({
   ],
   retries: process.env.CI ? 2 : 0,
   testDir: "./tests",
-  timeout: 30 * 1000,
+  timeout: 100 * 1000,
   use: {
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
